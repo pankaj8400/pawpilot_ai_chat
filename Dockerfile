@@ -2,6 +2,7 @@ FROM python:3.10-slim
 
 # Install system dependencies for audio/vision processing
 RUN apt-get update && apt-get install -y \
+    git \
     ffmpeg \
     libsm6 \
     libxext6 \
