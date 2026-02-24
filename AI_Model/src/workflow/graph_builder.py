@@ -1,21 +1,9 @@
-"""
-graph_builder.py
-Builds the complete LangGraph workflow
-"""
-
-import sys
-from pathlib import Path
-
-# Fix imports
-PROJECT_ROOT = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(PROJECT_ROOT))
-
 from langgraph.graph import START, END, StateGraph
 import logging
 
 logger = logging.getLogger(__name__)
 
-from src.workflow.nodes import (
+from AI_Model.src.workflow.nodes import (
     input_processing_node,
     decision_router_node,
     rag_retrieval_node,
@@ -26,7 +14,7 @@ from src.workflow.nodes import (
     check_fine_tuning_trigger_node,
 )
 
-from src.workflow.state_definition import WorkFlowState
+from AI_Model.src.workflow.state_definition import WorkFlowState
 
 
 def build_complete_workflow():

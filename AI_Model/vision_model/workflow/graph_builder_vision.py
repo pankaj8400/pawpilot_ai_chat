@@ -16,8 +16,6 @@ from AI_Model.src.utils.exceptions import CustomException
 
 logger = logging.getLogger(__name__)
 
-
-
 # Import nodes for subgraph B (Workflow Engineering)
 from AI_Model.src.workflow.nodes import (
     engineer_prompt_node,
@@ -325,9 +323,9 @@ class MultiGraphWorkflow:
             
             # Ensure subgraphs are built
             if self.subgraph_a is None:
-                self.build_subgraph_a()
+                self.subgraph_a = self.build_subgraph_a()
             if self.subgraph_b is None:
-                self.build_subgraph_b()
+                self.subgraph_b = self.build_subgraph_b()
             
             # Execute vision subgraph FIRST with vision_state
             vision_workflow = self.subgraph_a

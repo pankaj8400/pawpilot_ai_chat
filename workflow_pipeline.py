@@ -13,7 +13,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 from PIL import Image
 import io
 from AI_Model.src.utils.exceptions import CustomException
-from AI_Model.src.workflow.graph_builder import build_complete_workflow
+
 
 
 class ChatRequest(BaseModel):
@@ -263,6 +263,7 @@ async def lifespan(app: FastAPI):
     logger.info("=" * 50)
     
     try:
+        from AI_Model.src.workflow.graph_builder import build_complete_workflow
         workflow = build_complete_workflow()
         pipeline = ChatbotPipeline(workflow)
         vision_pipeline = VisionPipeline()
