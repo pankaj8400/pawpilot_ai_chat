@@ -350,25 +350,44 @@ async def upload_video(file: UploadFile = File(...)):
     }
 
 @app.post("/upload-photo/")
-async def upload_photo(files: List[UploadFile] = File(default=[]), query: str = ''):
+async def upload_photo(files: List[UploadFile] = File(default=[]), query: str = ""):
     """
     Upload multiple photos and perform processing on each.
     """
-    results = []
+
     global vision_pipeline
+
+    if not files:
+        raise HTTPException(status_code=400, detail="At least one image is required")
+
     if vision_pipeline is None:
         vision_pipeline = VisionPipeline()
+
     images = []
+
     for file in files:
-        contents = await file.read()
-        images.append(Image.open(io.BytesIO(contents)))
-        
-    result = vision_pipeline.process_images(images, query)
-        
-    results.append({
-        "filename": file.filename,
-        "result": result
-    })
+        try:
+            contents = await file.read()
+            images.append(Image.open(io.BytesIO(contents)))
+        except Exception:
+            raise HTTPException(status_code=400, detail="Invalid image file")
+
+    try:
+        result = vision_pipeline.process_images(images, query)
+    except Exception as e:
+        logger.error(f"Vision pipeline error: {e}")
+        return {
+            "error": "Image processing failed",
+            "details": str(e)
+        }
+
+    results = []
+
+    for file in files:
+        results.append({
+            "filename": file.filename,
+            "result": result
+        })
 
     return results
     
