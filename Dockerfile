@@ -1,6 +1,5 @@
 FROM python:3.11-slim
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
     ffmpeg \
@@ -12,13 +11,12 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-# Upgrade pip
-RUN pip install --upgrade pip
+# 🔥 FIX for clip build
+RUN pip install --upgrade pip setuptools wheel
 
-# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Setup NLTK data
+# 🔥 FIX for nltk errors
 ENV NLTK_DATA=/usr/local/nltk_data
 RUN mkdir -p /usr/local/nltk_data
 RUN python -m nltk.downloader -d /usr/local/nltk_data stopwords punkt punkt_tab
