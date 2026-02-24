@@ -11,8 +11,17 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 COPY requirements.txt .
+
+# Upgrade pip
+RUN pip install --upgrade pip
+
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-RUN python -m nltk.downloader stopwords punkt punkt_tab
+
+# Setup NLTK data
+ENV NLTK_DATA=/usr/local/nltk_data
+RUN mkdir -p /usr/local/nltk_data
+RUN python -m nltk.downloader -d /usr/local/nltk_data stopwords punkt punkt_tab
 
 COPY . .
 
