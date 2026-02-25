@@ -17,7 +17,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 ENV NLTK_DATA=/usr/local/nltk_data
 RUN mkdir -p /usr/local/nltk_data
-RUN python -m nltk.downloader -d /usr/local/nltk_data stopwords punkt
+RUN python -m nltk.downloader -d /usr/local/nltk_data \
+    stopwords punkt punkt_tab wordnet omw-1.4
 
 COPY . .
 
