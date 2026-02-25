@@ -993,6 +993,11 @@ class QueryRouter:
         Returns:
             RoutingDecision with complete routing information
         """
+        if not query or not query.strip():
+            logger.warning("Empty query received in router.")
+            return self._create_default_routing()
+        
+        query = query.strip()
         logger.info(f"Routing query: {query[:50]}...")
         
         # Get top 3 strategies
